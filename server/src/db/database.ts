@@ -28,7 +28,7 @@ class Database {
 
     public async query<T extends RowDataPacket[] | ResultSetHeader>(sql: string, params?: any[]): Promise<[T, FieldPacket[]]> {
         if (!this.pool) {
-            throw new Error('Sem conexão estabalacida com o banco de dadods')
+            throw new Error('Sem conexão estabalacida com o banco de dados')
         }
         const [rows, fields] = await this.pool.query<T>(sql, params)
         return [rows, fields];

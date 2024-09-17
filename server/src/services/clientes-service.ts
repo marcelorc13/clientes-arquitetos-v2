@@ -1,5 +1,7 @@
+import { ZodIssue } from "zod"
 import ClientesRepository from "../repositories/clientes-repository"
-import { clientesResponseDTO } from "../schema/clientes-schema"
+import { clientesResponseDTO, createClienteDTO, createClienteSchema } from "../schema/clientes-schema"
+import { ResultSetHeader } from "mysql2"
 
 class ClientesService {
     async getAllClientes(): Promise<clientesResponseDTO[] | null> {
@@ -9,12 +11,25 @@ class ClientesService {
         }
         return res
     }
+
     async getCliente(id: number): Promise<clientesResponseDTO | null> {
         const [res] = await ClientesRepository.getCliente(id)
         if (!res) {
             return null
         }
         return res
+    }
+
+    async createCliente(data: createClienteDTO): Promise<ResultSetHeader | ZodIssue[]> {
+        const validar = createClienteSchema.safeParse(data)
+
+        if (!validar.success) {
+            return validar.error.issues
+        }
+        const res = await ClientesRepository.createCliente(data)
+
+        return res;
+
     }
 }
 

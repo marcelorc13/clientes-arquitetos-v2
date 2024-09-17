@@ -5,3 +5,4 @@ export const clientesRouter = Router()
 
 clientesRouter.get("/", ClientesController.getAllClientes)
 clientesRouter.get("/:id", ClientesController.getCliente)
+clientesRouter.post("/", ClientesController.createCliente)

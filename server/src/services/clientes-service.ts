@@ -1,6 +1,6 @@
 import { ZodIssue } from "zod"
 import ClientesRepository from "../repositories/clientes-repository"
-import { clientesResponseDTO, createClienteDTO, createClienteSchema } from "../schema/clientes-schema"
+import { clientesResponseDTO, createClienteDTO, createClienteSchema } from "../schemas/clientes-schemas"
 import { ResultSetHeader } from "mysql2"
 
 class ClientesService {

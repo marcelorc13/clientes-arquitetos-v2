@@ -1,6 +1,6 @@
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import Database from "../db/database"
-import { clientesResponseDTO, createClienteDTO } from "../schema/clientes-schema";
+import { clientesResponseDTO, createClienteDTO } from "../schemas/clientes-schemas";
 
 class ClientesRespository {
     async getAllClientes(): Promise<clientesResponseDTO[]> {

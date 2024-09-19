@@ -1,9 +1,8 @@
 'use client'
 
 import "../cadastro-cliente.css"
-import { useForm } from "react-hook-form"
 import toast from "react-hot-toast";
-import { useState, useEffect } from 'react';
+import { useForm } from "react-hook-form"
 import { createClienteDTO, createClienteSchema } from "@/schemas/clientes-schemas";
 
 interface Props {
@@ -18,7 +17,6 @@ const CadastroClienteClient: React.FC<Props> = ({ }) => {
         const validData = createClienteSchema.safeParse(cliente)
 
         if (validData.success) {
-            reset()
 
             try {
                 const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/clientes`, {
@@ -51,6 +49,7 @@ const CadastroClienteClient: React.FC<Props> = ({ }) => {
                 <input type="text" {...register("cpf")} placeholder="CPF" />
                 <input type="text" {...register("cnpj")} placeholder="CNPJ" />
                 <input type="text" {...register("email")} placeholder="Email" />
+                <input type="text" {...register("telefone")} placeholder="Telefone" />
                 <input type="text" {...register("instagram")} placeholder="Instagram" />
                 <input type="text" {...register("site")} placeholder="Site" />
                 <input type="text" {...register("endereco")} placeholder="Endereço" />

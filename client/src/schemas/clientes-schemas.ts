@@ -7,6 +7,7 @@ export const createClienteSchema = z.object({
     cpf: z.string().max(14).transform((val) => setNull(val)).nullish(),
     cnpj: z.string().max(18).transform((val) => setNull(val)).nullish(),
     email: z.string().toLowerCase().max(120).email("Email inválido"),
+    telefone: z.string().max(14).transform((val) => setNull(val)).nullish(),
     instagram: z.string().max(120).transform((val) => setNull(val)).nullish(),
     site: z.string().max(255).transform((val) => setNull(val)).nullish(),
     endereco: z.string().max(255).transform((val) => setNull(val)).nullish(),

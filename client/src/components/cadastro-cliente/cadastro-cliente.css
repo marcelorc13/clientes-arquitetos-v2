@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-input  {
-    @apply border 
+input, select  {
+    @apply border rounded-lg px-2 py-1
 }

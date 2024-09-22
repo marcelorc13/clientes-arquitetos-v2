@@ -1,6 +1,6 @@
 'use client'
 
-import "../cadastro-cliente.css"
+import "./cadastro-cliente.css"
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form"
 import { createClienteDTO, createClienteSchema } from "@/schemas/clientes-schemas";
@@ -28,7 +28,7 @@ const CadastroClienteClient: React.FC<Props> = ({ }) => {
                 })
 
                 toast.success("Usuário criado com sucesso!")
-
+                reset()
                 return console.log(await res.json())
             }
 

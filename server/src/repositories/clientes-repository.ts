@@ -28,4 +28,4 @@ class ClientesRespository {
     }
 }
 
-export default new ClientesRespository
+export default new ClientesRespository()

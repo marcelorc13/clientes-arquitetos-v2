@@ -4,7 +4,7 @@ import { CustomResponse } from "../models/response-model"
 import { createClienteDTO } from "../schemas/clientes-schemas"
 
 class ClientesController {
-    async getAllClientes(req: Request, res: Response): Promise<Response | unknown> {
+    async getAllClientes(req: Request, res: Response) {
         try {
             const result = await ClientesService.getAllClientes()
             return res.status(200).json(new CustomResponse(200, "Todos os usuário do banco", result))
@@ -46,4 +46,4 @@ class ClientesController {
 
 }
 
-export default new ClientesController
+export default new ClientesController()

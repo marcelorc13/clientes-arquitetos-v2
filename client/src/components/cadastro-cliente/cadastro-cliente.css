@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-input, select  {
-    @apply border rounded-lg px-2 py-1
+input,
+select {
+    @apply border border-slate-200 rounded-md ps-2 py-1 w-full
+}
+
+select {
+    @apply bg-slate-200 cursor-pointer rounded-none
+}
+
+label {
+    @apply self-start -mb-3
 }

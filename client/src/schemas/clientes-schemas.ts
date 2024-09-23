@@ -11,7 +11,7 @@ export const createClienteSchema = z.object({
     instagram: z.string().max(120).transform((val) => setNull(val)).nullish(),
     site: z.string().max(255).transform((val) => setNull(val)).nullish(),
     endereco: z.string().max(255).transform((val) => setNull(val)).nullish(),
-    aniversario: z.union([z.coerce.date(), z.string()]).transform((val) => setNull(val)).nullish(),
+    aniversario: z.union([z.string().date(), z.string()]).transform((val) => setNull(val)).nullish(),
     linkedin: z.string().max(255).transform((val) => setNull(val)).nullish(),
     observacoes: z.string().max(500).transform((val) => setNull(val)).nullish()
 })

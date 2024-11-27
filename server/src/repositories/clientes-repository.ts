@@ -21,7 +21,7 @@ class ClientesRespository {
 
         const [res] = await Database.query<ResultSetHeader>(`
             INSERT INTO clientes(nome_completo, cpf, cnpj, email, categoria, empresa, telefone, instagram, site, endereco, aniversario, linkedin, observacoes)
-            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
             `, [nome_completo, cpf, cnpj, email, categoria, empresa, telefone, instagram, site, endereco, aniversario, linkedin, observacoes])
 
         return res

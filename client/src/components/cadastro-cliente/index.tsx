@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form"
 import { createClienteDTO, createClienteSchema } from "@/schemas/clientes-schemas";
 import { useState } from "react";
 import { FetchResponseType } from "@/models/response-model";
+import ReactInputMask from "react-input-mask";
 
 interface Props {
 
@@ -56,7 +57,7 @@ const CadastroClienteClient: React.FC<Props> = ({ }) => {
                 <h1 className="text-lg md:text-2xl font-medium">Cadastrar Cliente</h1>
                 <form onSubmit={handleSubmit(handleCreateCliente)} className="flex flex-col items-center gap-4 w-full">
                     <input type="text" {...register("nome_completo")} placeholder="Nome Completo" />
-                    <input type="text" maxLength={14} {...register("telefone")} placeholder="Telefone" />
+                    <ReactInputMask mask={'(99)99999-9999'}{...register("telefone")} placeholder="Telefone" />
                     <label htmlFor="categoria">Categoria: </label>
                     <select
                         id="categoria"
@@ -77,21 +78,10 @@ const CadastroClienteClient: React.FC<Props> = ({ }) => {
                         <option value="juridica">Jurídica</option>
                     </select>
                     {tipoDePessoa == "fisica" ?
-                        <input
-                            maxLength={14}
-                            type="text"
-                            {...register("cpf", {
-                                onChange: (e) => console.log(e.target.value)
-                            })}
-                            placeholder="CPF" /> :
-
-                        <input
-                            maxLength={18}
-                            type="text"
-                            {...register("cnpj", {
-                                onChange: (e) => console.log(e.target.value)
-                            })}
-                            placeholder="CNPJ" />
+                        <ReactInputMask mask={'999.999.999-99'} {...register("cpf")} placeholder="CPF" />
+                        :
+                        <ReactInputMask
+                            mask={'99.999.999/9999-99'} {...register("cnpj")} placeholder="CNPJ" />
                     }
                     <input type="text" {...register("instagram")} placeholder="Instagram" />
                     <input type="text" {...register("site")} placeholder="Site" />

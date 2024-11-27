@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useForm } from "react-hook-form"
 import { createClienteDTO, createClienteSchema } from "@/schemas/clientes-schemas";
 import { useState } from "react";
+import { FetchResponseType } from "@/models/response-model";
 
 interface Props {
 
@@ -27,10 +28,14 @@ const CadastroClienteClient: React.FC<Props> = ({ }) => {
                         'content-type': 'application/json'
                     }
                 })
+                const result: FetchResponseType = await res.json()
+                if (result.status == 500) {
+                    return toast.error("Erro desconhecido")
+                }
 
-                toast.success("Usuário criado com sucesso!")
+                console.log(result)
                 reset()
-                return console.log(await res.json())
+                return toast.success("Usuário criado com sucesso!")
             }
 
             catch (err) {
@@ -39,7 +44,6 @@ const CadastroClienteClient: React.FC<Props> = ({ }) => {
         }
 
         validData.error.issues.forEach((err) => {
-            console.log(err)
             return toast.error(err.message)
         })
 
@@ -47,28 +51,53 @@ const CadastroClienteClient: React.FC<Props> = ({ }) => {
     const [tipoDePessoa, setTipoDePessoa] = useState<string>("fisica")
 
     return (
-        <main className="bg-slate-200 flex items-center justify-center h-max md:h-screen w-full">
+        <main className=" flex items-center justify-center h-max md:h-screen w-full">
             <section className="flex flex-col justify-between items-center gap-8 py-8 bg-slate-50 px-8 md:px-20 rounded-xl shadow-xl w-full md:w-3/4">
                 <h1 className="text-lg md:text-2xl font-medium">Cadastrar Cliente</h1>
                 <form onSubmit={handleSubmit(handleCreateCliente)} className="flex flex-col items-center gap-4 w-full">
                     <input type="text" {...register("nome_completo")} placeholder="Nome Completo" />
-                    <input type="text" {...register("telefone")} placeholder="Telefone" />
-                    <input type="text" {...register("email")} placeholder="Email" />
+                    <input type="text" maxLength={14} {...register("telefone")} placeholder="Telefone" />
+                    <label htmlFor="categoria">Categoria: </label>
+                    <select
+                        id="categoria"
+                        defaultValue={"fisica"}
+                        {...register("categoria")}>
+                        <option value="cliente">Cliente</option>
+                        <option value="arquiteto">Arquiteto</option>
+                        <option value="fornecedo">Fornecedor</option>
+                    </select>
+                    <input type="text" {...register("empresa")} placeholder="Empresa" />
+                    <input type="text" {...register("email")} placeholder="Email" autoComplete="off" />
                     <label htmlFor="tipoDePessoa">Tipo de Pessoa:</label>
-                    <select name="tipoDePessoa" id="tipoDePessoa" defaultValue={"fisica"} onChange={(e) => setTipoDePessoa(e.target.value)}>
+                    <select
+                        id="tipoDePessoa"
+                        defaultValue={"fisica"}
+                        onChange={(e) => setTipoDePessoa(e.target.value)}>
                         <option value="fisica">Física</option>
                         <option value="juridica">Jurídica</option>
                     </select>
                     {tipoDePessoa == "fisica" ?
-                        <input type="text" {...register("cpf")} placeholder="CPF" /> :
+                        <input
+                            maxLength={14}
+                            type="text"
+                            {...register("cpf", {
+                                onChange: (e) => console.log(e.target.value)
+                            })}
+                            placeholder="CPF" /> :
 
-                        <input type="text" {...register("cnpj")} placeholder="CNPJ" />
+                        <input
+                            maxLength={18}
+                            type="text"
+                            {...register("cnpj", {
+                                onChange: (e) => console.log(e.target.value)
+                            })}
+                            placeholder="CNPJ" />
                     }
                     <input type="text" {...register("instagram")} placeholder="Instagram" />
                     <input type="text" {...register("site")} placeholder="Site" />
                     <input type="text" {...register("endereco")} placeholder="Endereço" />
                     <label htmlFor="aniversario">Aniversário:</label>
-                    <input type="date" {...register("aniversario")} />
+                    <input id="aniversario" type="date" {...register("aniversario")} />
                     <input type="text" {...register("linkedin")} placeholder="LinkedIn" />
                     <input type="text" {...register("observacoes")} placeholder="Observações" />
 

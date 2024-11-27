@@ -17,12 +17,12 @@ class ClientesRespository {
     }
 
     async createCliente(data: createClienteDTO): Promise<ResultSetHeader> {
-        const { nome_completo, cpf, cnpj, email, telefone, instagram, site, endereco, aniversario, linkedin, observacoes } = data
+        const { nome_completo, cpf, cnpj, email, categoria, empresa, telefone, instagram, site, endereco, aniversario, linkedin, observacoes } = data
 
         const [res] = await Database.query<ResultSetHeader>(`
-            INSERT INTO clientes(nome_completo, cpf, cnpj, email, telefone, instagram, site, endereco, aniversario, linkedin, observacoes)
+            INSERT INTO clientes(nome_completo, cpf, cnpj, email, categoria, empresa, telefone, instagram, site, endereco, aniversario, linkedin, observacoes)
             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-            `, [nome_completo, cpf, cnpj, email, telefone, instagram, site, endereco, aniversario, linkedin, observacoes])
+            `, [nome_completo, cpf, cnpj, email, categoria, empresa, telefone, instagram, site, endereco, aniversario, linkedin, observacoes])
 
         return res
     }

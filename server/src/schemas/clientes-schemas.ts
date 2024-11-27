@@ -4,6 +4,8 @@ export const clientesResponseSchema = z.object({
     id_cliente: z.number(),
     nome_completo: z.string(),
     telefone: z.string(),
+    categoria: z.string(),
+    empresa: z.string(),
     email: z.string().email().nullish(),
     cpf: z.number().nullable(),
     cnpj: z.number().nullable(),
@@ -19,6 +21,8 @@ export const clientesResponseSchema = z.object({
 export const createClienteSchema = z.object({
     nome_completo: z.string().min(5).max(150),
     telefone: z.string().max(14),
+    categoria: z.string(),
+    empresa: z.string(),
     email: z.string().max(120).email().nullish(),
     cpf: z.string().max(14).nullish(),
     cnpj: z.string().max(18).nullish(),

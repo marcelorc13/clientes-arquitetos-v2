@@ -53,7 +53,7 @@ const CadastroClienteClient: React.FC<Props> = ({ }) => {
 
     return (
         <main className=" flex items-center justify-center h-max md:h-screen w-full">
-            <section className="flex flex-col justify-between items-center gap-8 py-8 bg-slate-50 px-8 md:px-20 rounded-xl shadow-xl w-full md:w-3/4">
+            <section className="flex flex-col justify-between items-center gap-8 py-8 bg-slate-50 rounded-xl shadow-xl w-full px-8 md:px-16 lg:px-24">
                 <h1 className="text-lg md:text-2xl font-medium">Cadastrar Cliente</h1>
                 <form onSubmit={handleSubmit(handleCreateCliente)} className="flex flex-col items-center gap-4 w-full">
                     <input type="text" {...register("nome_completo")} placeholder="Nome Completo" />

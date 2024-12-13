@@ -22,7 +22,7 @@ export const createClienteSchema = z.object({
     nome_completo: z.string().min(5).max(150),
     telefone: z.string().max(14),
     categoria: z.string(),
-    empresa: z.string().max(120).email().nullish(),
+    empresa: z.string().max(120).nullish(),
     email: z.string().max(120).email().nullish(),
     cpf: z.string().max(14).nullish(),
     cnpj: z.string().max(18).nullish(),

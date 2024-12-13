@@ -8,11 +8,7 @@ import { useState } from "react";
 import { FetchResponseType } from "@/models/response-model";
 import ReactInputMask from "react-input-mask";
 
-interface Props {
-
-}
-
-const CadastroClienteClient: React.FC<Props> = ({ }) => {
+const CadastroClienteClient: React.FC = ({ }) => {
 
     const { register, reset, handleSubmit } = useForm<createClienteDTO>()
 
@@ -33,6 +29,9 @@ const CadastroClienteClient: React.FC<Props> = ({ }) => {
                 if (result.status == 500) {
                     return toast.error("Erro desconhecido")
                 }
+                if (result.status == 400) {
+                    return toast.error("Erro de validacao")
+                }
 
                 console.log(result)
                 reset()
@@ -52,8 +51,8 @@ const CadastroClienteClient: React.FC<Props> = ({ }) => {
     const [tipoDePessoa, setTipoDePessoa] = useState<string>("fisica")
 
     return (
-        <main className=" flex items-center justify-center h-max md:h-screen w-full">
-            <section className="flex flex-col justify-between items-center gap-8 py-8 bg-slate-50 rounded-xl shadow-xl w-full px-8 md:px-16 lg:px-24">
+        <main className=" flex items-center justify-end w-full">
+            <section className="flex flex-col justify-between items-center gap-8 py-8 w-full md:w-3/4 lg:w-4/5 px-8 md:px-16 lg:px-24 ">
                 <h1 className="text-lg md:text-2xl font-medium">Cadastrar Cliente</h1>
                 <form onSubmit={handleSubmit(handleCreateCliente)} className="flex flex-col items-center gap-4 w-full">
                     <input type="text" {...register("nome_completo")} placeholder="Nome Completo" />
@@ -63,9 +62,9 @@ const CadastroClienteClient: React.FC<Props> = ({ }) => {
                         id="categoria"
                         defaultValue={"fisica"}
                         {...register("categoria")}>
-                        <option value="cliente">Cliente</option>
-                        <option value="arquiteto">Arquiteto</option>
-                        <option value="fornecedo">Fornecedor</option>
+                        <option value="Cliente">Cliente</option>
+                        <option value="Arquiteto">Arquiteto</option>
+                        <option value="Fornecedor">Fornecedor</option>
                     </select>
                     <input type="text" {...register("empresa")} placeholder="Empresa" />
                     <input type="text" {...register("email")} placeholder="Email" autoComplete="off" />

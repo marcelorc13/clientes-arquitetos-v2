@@ -1,7 +1,7 @@
-export interface FetchResponseType {
+export interface FetchResponseType<T> {
     status: number,
     message: string,
-    data?: [ClienteResponseType]
+    data?: T
 }
 
 export interface ClienteResponseType {

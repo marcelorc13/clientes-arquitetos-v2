@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { getClientes } from '@/services/clientes';
 import { ClienteResponseType, FetchResponseType } from '@/models/response-model';
+import Link from 'next/link';
 
 const Carregando = () => (
     <div className='w-full'>
@@ -22,7 +23,7 @@ const Clientes = () => {
 
     useEffect(() => {
         const loadData = async () => {
-            const res: FetchResponseType | null | undefined = await getClientes();
+            const res: FetchResponseType<ClienteResponseType[]> | null | undefined = await getClientes();
             const data: ClienteResponseType[] | null | undefined = res?.data
             if (!res) {
                 return null
@@ -44,13 +45,16 @@ const Clientes = () => {
                 <li>Telefone:</li>
                 <li>Categoria:</li>
             </ul>
+
             {!loading && clientes ? clientes.map((cliente, key) => (
-                <ul className='grid grid-cols-4 border-gray-300 border-b' key={key}>
-                    <li className='bg-gray-200'>{cliente.id_cliente}</li>
-                    <li>{cliente.nome_completo}</li>
-                    <li className='bg-gray-200'>{cliente.telefone}</li>
-                    <li>{cliente.categoria}</li>
-                </ul>
+                <Link key={key} href={`clientes/${cliente.id_cliente}`}>
+                    <ul className='grid grid-cols-4 border-gray-300 border-b' key={key}>
+                        <li className='bg-gray-200'>{cliente.id_cliente}</li>
+                        <li>{cliente.nome_completo}</li>
+                        <li className='bg-gray-200'>{cliente.telefone}</li>
+                        <li>{cliente.categoria}</li>
+                    </ul>
+                </Link>
             )) : <Carregando />}
         </section>
     )
@@ -61,7 +65,7 @@ const ClientesClient: React.FC = ({ }) => {
 
     return (
         <main className='flex items-center justify-end w-full'>
-            <section className='flex flex-col items-center bg-slate-50 w-full md:w-3/4 lg:w-4/5'>
+            <section className='flex flex-col items-center w-full md:w-3/4 lg:w-4/5'>
                 <h1 className='text-2xl font-semibold'>Clientes:</h1>
                 <Clientes />
             </section>

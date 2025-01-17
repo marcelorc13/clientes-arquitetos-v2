@@ -26,6 +26,14 @@ class ClientesRespository {
 
         return res
     }
+
+    async deleteCliente(id: number) {
+        const [res] = await Database.query<ResultSetHeader>(`
+            DELETE FROM clientes
+            WHERE id_cliente = ?;
+            `, [id])
+        return res
+    }
 }
 
 export default new ClientesRespository()

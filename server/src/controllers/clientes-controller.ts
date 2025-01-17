@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import ClientesService from "../services/clientes-service"
+import ClientesRepository from "../repositories/clientes-repository"
 import { CustomResponse } from "../models/response-model"
 import { createClienteDTO } from "../schemas/clientes-schemas"
 
@@ -42,6 +43,20 @@ class ClientesController {
             }
 
             return res.status(201).json(new CustomResponse(200, `Cliente cadastrado com sucesso`, { affectedRows: result.affectedRows, insertId: result.insertId }))
+        }
+        catch (err) {
+            return res.status(500).json(new CustomResponse(500, "Erro desconhecido", err))
+        }
+    }
+
+    async deleteCliente(req: Request, res: Response) {
+        try {
+            const id: number = parseInt(req.params.id)
+            const result = await ClientesRepository.deleteCliente(id)
+            if (result.affectedRows > 0) {
+                return res.status(200).json(new CustomResponse(200, 'Cliente deletado com sucesso', { affectedRows: result.affectedRows }))
+            }
+            return res.status(404).json(new CustomResponse(400, 'Cliente não existente'))
         }
         catch (err) {
             return res.status(500).json(new CustomResponse(500, "Erro desconhecido", err))

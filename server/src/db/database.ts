@@ -16,7 +16,7 @@ class Database {
                 user: process.env.MYSQL_USER,
                 password: process.env.MYSQL_PASSWORD,
                 database: process.env.MYSQL_DB,
-                port: parseInt(process.env.MYSQL_PORT || '3030', 10)
+                port: process.env.MYSQL_PORT ? parseInt(process.env.MYSQL_PORT, 10) : undefined
             }
 
             this.pool = mysql.createPool(options)

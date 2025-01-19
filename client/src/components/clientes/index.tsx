@@ -1,16 +1,22 @@
 'use client'
 
+import "./clientes.css"
 import { useEffect, useState } from 'react';
-import { getClientes } from '@/services/clientes';
+import { deleteCliente, getClientes } from '@/services/clientes';
 import { ClienteResponseType, FetchResponseType } from '@/models/response-model';
+import { IoTrashOutline } from "react-icons/io5";
+import { Router } from "next/router";
 import Link from 'next/link';
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const Carregando = () => (
     <div className='w-full'>
-        <ul className='grid grid-cols-4 border-gray-300 border-b' >
-            <li className='bg-gray-200 animate-pulse '></li>
-            <li className='select-none text-slate-50'>s</li>
+        <ul className='lista grid grid-cols-8 border-gray-300 border-l border-r border-b' >
+            <li className='bg-gray-200 animate-pulse id'></li>
+            <li className='select-none text-slate-50'>.</li>
             <li className='bg-gray-200 animate-pulse'></li>
+            <li></li>
             <li></li>
         </ul>
     </div>
@@ -20,6 +26,7 @@ const Carregando = () => (
 const Clientes = () => {
     const [clientes, setClientes] = useState<ClienteResponseType[] | null>(null);
     const [loading, setLoading] = useState(true);
+    const router = useRouter()
 
     useEffect(() => {
         const loadData = async () => {
@@ -39,23 +46,36 @@ const Clientes = () => {
 
     return (
         <section className='w-full px-4'>
-            <ul className='grid grid-cols-4 text-lg font-medium border-gray-300 border-b'>
-                <li>ID:</li>
+            <ul className='cabecalho-lista grid grid-cols-8 text-lg font-medium border-gray-300 border-b'>
+                <li className="id">ID:</li>
                 <li>Nome:</li>
                 <li>Telefone:</li>
                 <li>Categoria:</li>
+                <li></li>
             </ul>
-
-            {!loading && clientes ? clientes.map((cliente, key) => (
-                <Link key={key} href={`clientes/${cliente.id_cliente}`}>
-                    <ul className='grid grid-cols-4 border-gray-300 border-b' key={key}>
-                        <li className='bg-gray-200'>{cliente.id_cliente}</li>
-                        <li>{cliente.nome_completo}</li>
+            <div className='relative'>
+                {!loading && clientes ? clientes.map((cliente, key) => (
+                    <ul key={key} className='lista grid grid-cols-8 border-gray-300 border-l border-r border-b'>
+                        <li className='bg-gray-200 id'><Link href={`clientes/${cliente.id_cliente}`}>{cliente.id_cliente}</Link></li>
+                        <li><Link href={`clientes/${cliente.id_cliente}`}>{cliente.nome_completo}</Link></li>
                         <li className='bg-gray-200'>{cliente.telefone}</li>
                         <li>{cliente.categoria}</li>
+                        <li className="id flex items-center justify-end" ><IoTrashOutline className="cursor-pointer" onClick={async (e) => {
+                            e.preventDefault()
+                            const res: FetchResponseType<any> = await deleteCliente(cliente.id_cliente)
+                            if (res.status == 200) {
+                                console.log(res.message)
+                                return toast.success(res.message)
+                            }
+                            if (res.status == 404) {
+                                console.log(res.message)
+                                return toast.error(res.message)
+                            }
+                        }
+                        } /></li >
                     </ul>
-                </Link>
-            )) : <Carregando />}
+                )) : <Carregando />}
+            </div>
         </section>
     )
 }

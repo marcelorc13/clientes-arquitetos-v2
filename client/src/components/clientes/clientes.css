@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.cabecalho-lista li {
+    @apply px-2 col-span-2
+}
+
+.lista li {
+    @apply px-1 col-span-2
+}
+
+.lista .id, .cabecalho-lista .id {
+    @apply col-span-1
+}

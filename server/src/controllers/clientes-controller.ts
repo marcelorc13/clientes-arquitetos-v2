@@ -56,7 +56,7 @@ class ClientesController {
             if (result.affectedRows > 0) {
                 return res.status(200).json(new CustomResponse(200, 'Cliente deletado com sucesso', { affectedRows: result.affectedRows }))
             }
-            return res.status(404).json(new CustomResponse(400, 'Cliente não existente'))
+            return res.status(404).json(new CustomResponse(404, 'Cliente não existente ou ja foi excluído'))
         }
         catch (err) {
             return res.status(500).json(new CustomResponse(500, "Erro desconhecido", err))

@@ -5,10 +5,8 @@ import { useEffect, useState } from 'react';
 import { deleteCliente, getClientes } from '@/services/clientes';
 import { ClienteResponseType, FetchResponseType } from '@/models/response-model';
 import { IoTrashOutline } from "react-icons/io5";
-import { Router } from "next/router";
 import Link from 'next/link';
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
 const Carregando = () => (
     <div className='w-full'>
@@ -26,7 +24,6 @@ const Carregando = () => (
 const Clientes = () => {
     const [clientes, setClientes] = useState<ClienteResponseType[] | null>(null);
     const [loading, setLoading] = useState(true);
-    const router = useRouter()
 
     useEffect(() => {
         const loadData = async () => {
@@ -62,7 +59,7 @@ const Clientes = () => {
                         <li>{cliente.categoria}</li>
                         <li className="id flex items-center justify-end" ><IoTrashOutline className="cursor-pointer" onClick={async (e) => {
                             e.preventDefault()
-                            const res: FetchResponseType<any> = await deleteCliente(cliente.id_cliente)
+                            const res: FetchResponseType<null> = await deleteCliente(cliente.id_cliente)
                             if (res.status == 200) {
                                 console.log(res.message)
                                 return toast.success(res.message)

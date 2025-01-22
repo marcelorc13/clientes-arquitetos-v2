@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useForm } from "react-hook-form"
 import { createClienteDTO, createClienteSchema } from "@/schemas/clientes-schemas";
 import { useState } from "react";
-import { FetchResponseType } from "@/models/response-model";
+import { ClienteResponseType, FetchResponseType } from "@/models/response-model";
 import ReactInputMask from "react-input-mask";
 
 const CadastroClienteClient: React.FC = ({ }) => {
@@ -25,8 +25,9 @@ const CadastroClienteClient: React.FC = ({ }) => {
                         'content-type': 'application/json'
                     }
                 })
-                const result: FetchResponseType = await res.json()
+                const result: FetchResponseType<ClienteResponseType> = await res.json()
                 if (result.status == 500) {
+                    console.log(result.message)
                     return toast.error("Erro desconhecido")
                 }
                 if (result.status == 400) {

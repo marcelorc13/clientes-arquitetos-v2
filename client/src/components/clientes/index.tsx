@@ -12,12 +12,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const Carregando = () => (
     <div>
         <ul className='lista py-4' >
-            <li className="pequeno"><AiOutlineLoading3Quarters className="animate-spin" /></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li className="pequeno"></li>
+            <li><AiOutlineLoading3Quarters className="animate-spin" /></li>
         </ul>
     </div>
 )
@@ -26,17 +21,26 @@ const Carregando = () => (
 const Clientes = () => {
     const [clientes, setClientes] = useState<ClienteResponseType[] | null>(null)
     const [loading, setLoading] = useState(true)
+    const [selecionado, setSelecionado] = useState<number[]>([])
+    const [selecionarTodos, setSelecionarTodos] = useState<boolean>(false)
 
     useEffect(() => {
         const loadData = async () => {
-            const res: FetchResponseType<ClienteResponseType[]> | null | undefined = await getClientes()
-            const data: ClienteResponseType[] | null | undefined = res?.data
-            if (!res) {
-                return null
+            try {
+                const res: FetchResponseType<ClienteResponseType[]> | null | undefined = await getClientes()
+                const data: ClienteResponseType[] | null | undefined = res?.data
+                if (!res) {
+                    return null
+                }
+                if (data) {
+                    return setClientes(data);
+                }
             }
-            if (data) {
-                setLoading(false);
-                return setClientes(data);
+            catch (err) {
+                console.log(err)
+            }
+            finally {
+                return setLoading(false);
             }
         };
 
@@ -55,26 +59,49 @@ const Clientes = () => {
         }
     }
 
+    const handleSelecionarTodos = () => {
+        if (!selecionarTodos) {
+            clientes?.map((cliente) => setSelecionado((prev) => [...prev, cliente.id_cliente]))
+            return setSelecionarTodos(true)
+        }
+        setSelecionado([])
+        return setSelecionarTodos(false)
+    }
+
     return (
         <section className='w-full flex flex-col h-screen px-12 py-6'>
-            <h1 className="text-2xl font-medium">Clientes</h1>
+            <h1 className="text-2xl font-medium ">Clientes</h1>
+            <h3 className="text-sm text-slate-600">Total: {clientes?.length}</h3>
+            {selecionado.length > 0 ?
+                <div className="absolute top-8 right-12">
+                    <div className="w-full flex flex-row gap-2">
+                        <button className="bg-red-600 funcoes-selecionados">Excluir</button>
+                        <button className="bg-green-600 funcoes-selecionados">Download Excel</button>
+                    </div>
+                </div>
+                : null}
             <ul className='lista text-slate-700'>
-                <li className="pequeno"><input type="checkbox" /></li>
-                <li>ID</li>
-                <li>Nome</li>
+                <li className="pequeno"><input type="checkbox" onChange={() => handleSelecionarTodos()} /></li>
+                <li className="id">ID</li>
+                <li className="nome">Nome</li>
                 <li>Telefone</li>
                 <li>Categoria</li>
                 <li className="pequeno">Excluir</li>
             </ul>
             <div className='overflow-y-auto bg-slate-200 w-full h-max flex flex-col shadow-md '>
                 {!loading && clientes ? clientes.map((cliente, key) => (
-                    <ul key={key} className='border-slate-300 border-b py-4 grid grid-cols-10 px-2'>
-                        <li className="col-span-1"><input type="checkbox"/></li>
+                    <ul key={key} className='listaData'>
+                        <li className="col-span-1"><input type="checkbox" checked={selecionado.includes(cliente.id_cliente)} onChange={() => {
+                            setSelecionado((prev) => prev.includes(cliente.id_cliente) ?
+                                prev.filter(id => id !== cliente.id_cliente) :
+                                [...prev, cliente.id_cliente]
+                            )
+                        }} /></li>
                         <li className="col-span-8">
                             <Link href={`clientes/${cliente.id_cliente}`}>
                                 <ul className="grid grid-cols-4">
-                                    <li className=''>{cliente.id_cliente}</li>
-                                    <li>{cliente.nome_completo}</li>
+                                    <li className='id'>{cliente.id_cliente}</li>
+                                    <li className="nome">{cliente.nome_completo}</li>
                                     <li className=''>{cliente.telefone}</li>
                                     <li>{cliente.categoria}</li>
                                 </ul>

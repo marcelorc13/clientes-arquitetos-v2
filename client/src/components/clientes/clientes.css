@@ -7,9 +7,32 @@
 }
 
 .lista li {
-    @apply col-span-2
+    @apply col-span-2 px-1
 }
 
 .lista .pequeno {
     @apply col-span-1
 }
+
+.listaData {
+    @apply border-slate-300 border-b py-4 grid grid-cols-10 px-2
+}
+.listaData li {
+    @apply ps-1 overflow-hidden
+}
+
+.funcoes-selecionados {
+    @apply bg-opacity-80 text-slate-200 py-1 px-2 shadow-md rounded-md
+}
+
+.funcoes-selecionados:hover {
+    @apply scale-95 transition duration-150
+}
+
+/* .id {
+    @apply col-span-1
+}
+
+.nome {
+    @apply col-span-3
+} */

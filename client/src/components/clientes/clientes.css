@@ -2,14 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-.cabecalho-lista li {
-    @apply px-2 col-span-2
+.lista {
+    @apply grid grid-cols-10 px-2
 }
 
 .lista li {
-    @apply px-1 col-span-2
+    @apply col-span-2
 }
 
-.lista .id, .cabecalho-lista .id {
+.lista .pequeno {
     @apply col-span-1
 }

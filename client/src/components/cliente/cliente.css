@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.infos div {
+    @apply flex flex-row 
+}
+
+.infos div div {
+    @apply w-1/2 flex gap-1 text-wrap
+}
+.infos div div span {
+    @apply font-semibold
+}

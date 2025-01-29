@@ -7,11 +7,7 @@
 }
 
 .lista li {
-    @apply col-span-2 px-1
-}
-
-.lista .pequeno {
-    @apply col-span-1
+    @apply px-1
 }
 
 .listaData {
@@ -28,11 +24,3 @@
 .funcoes-selecionados:hover {
     @apply scale-95 transition duration-150
 }
-
-/* .id {
-    @apply col-span-1
-}
-
-.nome {
-    @apply col-span-3
-} */

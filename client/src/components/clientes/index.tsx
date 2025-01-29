@@ -112,34 +112,37 @@ const Clientes = () => {
 
                         <button className="bg-green-600 funcoes-selecionados" onClick={() => {
                             handleDownloadExcel()
+                            setSelecionarTodos(false)
+                            setSelecionado([])
                         }}>Download Excel</button>
                     </div>
                 </div>
-                : null}
+                : null
+            }
             <ul className='lista text-slate-700'>
-                <li className="pequeno"><input type="checkbox" onChange={() => handleSelecionarTodos()} /></li>
-                <li className="id">ID</li>
-                <li className="nome">Nome</li>
-                <li>Telefone</li>
-                <li>Categoria</li>
-                <li className="pequeno">Excluir</li>
+                <li className="col-span-1"><input className="cursor-pointer" type="checkbox" checked={selecionarTodos} onChange={() => handleSelecionarTodos()} /></li>
+                <li className="col-span-1">ID</li>
+                <li className="col-span-3">Nome</li>
+                <li className="col-span-2">Telefone</li>
+                <li className="col-span-2">Categoria</li>
+                <li className="col-span-1">Excluir</li>
             </ul>
-            <div className='overflow-y-auto bg-slate-200 w-full h-max flex flex-col shadow-md '>
+            <div className='overflow-y-auto bg-slate-200 w-full h-max flex flex-col shadow-md'>
                 {!loading && clientes ? clientes.map((cliente, key) => (
-                    <ul key={key} className='listaData'>
-                        <li className="col-span-1"><input type="checkbox" checked={selecionado.includes(cliente.id_cliente)} onChange={() => {
+                    <ul key={key} className={`listaData ${selecionado.includes(cliente.id_cliente) ? 'bg-blue-200' : ''}`}>
+                        <li className="col-span-1"><input className="cursor-pointer" type="checkbox" checked={selecionado.includes(cliente.id_cliente)} onChange={() => {
                             setSelecionado((prev) => prev.includes(cliente.id_cliente) ?
                                 prev.filter(id => id !== cliente.id_cliente) :
                                 [...prev, cliente.id_cliente]
                             )
                         }} /></li>
-                        <li className="col-span-8">
+                        <li className="col-span-8 group">
                             <Link href={`clientes/${cliente.id_cliente}`}>
-                                <ul className="grid grid-cols-4">
-                                    <li className='id'>{cliente.id_cliente}</li>
-                                    <li className="nome">{cliente.nome_completo}</li>
-                                    <li className=''>{cliente.telefone}</li>
-                                    <li>{cliente.categoria}</li>
+                                <ul className="grid grid-cols-8">
+                                    <li className='col-span-1'>{cliente.id_cliente}</li>
+                                    <li className="col-span-3">{cliente.nome_completo}</li>
+                                    <li className='col-span-2'>{cliente.telefone}</li>
+                                    <li className="col-span-2">{cliente.categoria}</li>
                                 </ul>
                             </Link>
                         </li>

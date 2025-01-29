@@ -2,12 +2,15 @@
 
 import "./clientes.css"
 import { useEffect, useState } from 'react';
-import { deleteCliente, getClientes } from '@/services/clientes';
+import { deleteCliente, getCliente, getClientes } from '@/services/clientes';
 import { ClienteResponseType, FetchResponseType } from '@/models/response-model';
 import { IoTrashOutline } from "react-icons/io5";
 import Link from 'next/link';
 import toast from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { downloadExcelFile } from "@/services/generate";
+import { useRouter } from "next/navigation";
+import { useReload } from "@/hooks/useReload";
 
 const Carregando = () => (
     <div>
@@ -23,6 +26,8 @@ const Clientes = () => {
     const [loading, setLoading] = useState(true)
     const [selecionado, setSelecionado] = useState<number[]>([])
     const [selecionarTodos, setSelecionarTodos] = useState<boolean>(false)
+
+    const router = useRouter()
 
     useEffect(() => {
         const loadData = async () => {
@@ -51,6 +56,7 @@ const Clientes = () => {
         const res: FetchResponseType<null> = await deleteCliente(id)
         if (res.status == 200) {
             console.log(res.message)
+            useReload()
             return toast.success(res.message)
         }
         if (res.status == 404) {
@@ -68,6 +74,28 @@ const Clientes = () => {
         return setSelecionarTodos(false)
     }
 
+    const handleDownloadExcel = async () => {
+        try {
+            const clientesSelecionados = (await Promise.all(
+                selecionado.map(async id => {
+                    const clienteTemp = await getCliente(id.toString())
+                    return clienteTemp?.data
+                })
+            )).filter((client): client is ClienteResponseType => client !== undefined)
+
+            const res = await downloadExcelFile(clientesSelecionados)
+
+            if (res) {
+                return toast.success("Download iniciado com sucesso")
+            }
+            return toast.error('Erro ao fazer download')
+        }
+        catch (err) {
+            console.log(err)
+            return toast.error('Erro ao fazer download')
+        }
+    }
+
     return (
         <section className='w-full flex flex-col h-screen px-12 py-6'>
             <h1 className="text-2xl font-medium ">Clientes</h1>
@@ -75,8 +103,16 @@ const Clientes = () => {
             {selecionado.length > 0 ?
                 <div className="absolute top-8 right-12">
                     <div className="w-full flex flex-row gap-2">
-                        <button className="bg-red-600 funcoes-selecionados">Excluir</button>
-                        <button className="bg-green-600 funcoes-selecionados">Download Excel</button>
+                        <button className="bg-red-600 funcoes-selecionados" onClick={() => {
+                            selecionado.map(id => {
+                                deleteCliente(id)
+                                useReload()
+                            })
+                        }}>Excluir</button>
+
+                        <button className="bg-green-600 funcoes-selecionados" onClick={() => {
+                            handleDownloadExcel()
+                        }}>Download Excel</button>
                     </div>
                 </div>
                 : null}
@@ -115,9 +151,7 @@ const Clientes = () => {
     )
 }
 
-const ClientesClient: React.FC = ({ }) => {
-
-
+const ClientesClient = () => {
     return (
         <main className='flex items-center justify-end w-full overflow-y-hidden bg-slate-300'>
             <section className='flex flex-col items-center w-full md:w-3/4 lg:w-4/5'>

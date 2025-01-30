@@ -91,7 +91,7 @@ const CadastroClienteClient: React.FC = ({ }) => {
                     <input type="text" {...register("linkedin")} placeholder="LinkedIn" />
                     <input type="text" {...register("observacoes")} placeholder="Observações" />
 
-                    <button className="rounded-md py-2 px-4 bg-slate-200" type="submit">Cadastrar</button>
+                    <button className="rounded-md py-2 px-4 bg-slate-700 text-slate-200 hover:bg-slate-200 hover:text-slate-700 border border-slate-700 transition duration-200 text-lg text-semibold" type="submit">Cadastrar</button>
                 </form>
 
             </section>

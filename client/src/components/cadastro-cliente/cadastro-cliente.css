@@ -4,11 +4,11 @@
 
 input,
 select {
-    @apply border border-slate-200 rounded-md ps-2 py-1 w-full
+    @apply border border-slate-300 rounded-md ps-2 py-1 w-full
 }
 
 select {
-    @apply bg-slate-200 cursor-pointer rounded-none
+    @apply bg-slate-300 cursor-pointer rounded-none
 }
 
 label {

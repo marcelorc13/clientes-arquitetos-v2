@@ -35,7 +35,7 @@ const ClienteSelecionadoClient: React.FC<Props> = ({ id }) => {
     }, []);
 
     return (
-        <main className='flex items-center justify-end w-full'>
+        <main className='flex items-center justify-end w-full bg-slate-300'>
             <section className='w-full md:w-3/4 lg:w-4/5 relative h-screen px-12 py-6'>
                 {!loading && cliente ?
                     <div className='flex flex-col gap-2 w-full'>
@@ -43,7 +43,7 @@ const ClienteSelecionadoClient: React.FC<Props> = ({ id }) => {
 
                         <h1 className='text-2xl font-semibold ps-2'>{cliente.nome_completo.split(' ')[0]}</h1>
 
-                        <div className='infos flex flex-col gap-2 text-lg bg-slate-300 px-8 py-4'>
+                        <div className='infos flex flex-col gap-2 text-lg bg-slate-200 px-8 py-4 shadow-lg'>
                             <div>
                                 <div><span>Nome Completo: </span> {cliente.nome_completo}</div>
                                 <div><span>Telefone: </span> {cliente.telefone}</div>

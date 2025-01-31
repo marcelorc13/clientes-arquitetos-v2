@@ -34,7 +34,7 @@ class UsuariosService {
         if (!res) {
             return null
         }
-        const isValid = bcrypt.compare(senha, res.senha)
+        const isValid = await bcrypt.compare(senha, res.senha)
 
         if (!isValid) {
             return null

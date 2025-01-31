@@ -42,7 +42,7 @@ class ClientesController {
                 return res.status(400).json(new CustomResponse(400, "Erro de Validação", result))
             }
 
-            return res.status(201).json(new CustomResponse(200, `Cliente cadastrado com sucesso`, { affectedRows: result.affectedRows, insertId: result.insertId }))
+            return res.status(201).json(new CustomResponse(201, `Cliente cadastrado com sucesso`, { affectedRows: result.affectedRows, insertId: result.insertId }))
         }
         catch (err) {
             return res.status(500).json(new CustomResponse(500, "Erro desconhecido", err))

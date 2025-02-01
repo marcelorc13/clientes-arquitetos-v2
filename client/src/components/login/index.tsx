@@ -6,6 +6,7 @@ import { loginUsuarioDTO, usuarioDTO } from "@/schemas/usuarios-schemas";
 import { login } from "@/services/usuarios";
 import { FetchResponseType } from "@/models/response-model";
 import toast from "react-hot-toast";
+import { useRedirect } from "@/hooks/useRedirect";
 
 const LoginClient = () => {
 
@@ -28,6 +29,7 @@ const LoginClient = () => {
             if (res.status == 404 || res.status == 500) {
                 return toast.error(res.message)
             }
+            useRedirect('/clientes')
             return toast.success(res.message)
         }
         catch (err) {

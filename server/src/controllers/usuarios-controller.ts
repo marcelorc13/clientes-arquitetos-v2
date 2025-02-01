@@ -2,7 +2,10 @@ import { Request, Response } from "express"
 import { createUsuarioDTO } from "../schemas/usuarios-schemas"
 import { CustomResponse } from "../models/response-model"
 import UsuariosService from "../services/usuarios-service"
+import jwt from "jsonwebtoken"
+import { configDotenv } from "dotenv"
 
+configDotenv()
 class UsuariosController {
     async createUsuario(req: Request, res: Response) {
         try {
@@ -36,11 +39,21 @@ class UsuariosController {
 
     async login(req: Request, res: Response) {
         try {
-            const {email , senha} = req.body
+            const { email, senha } = req.body
             const result = await UsuariosService.login(email, senha)
             if (!result) {
                 return res.status(404).json(new CustomResponse(404, "Email ou Senha incorreto"))
             }
+
+            const segredo = process.env.JWT_SECRET || "abibolo"
+
+            const token = jwt.sign({ id_usuario: result.id_usuario, nome: result.nome, email: result.email }, segredo, { expiresIn: "1h" })
+
+            res.cookie("token", token, {
+                httpOnly: true,
+                maxAge: 1000 * 60 * 60,
+            })
+
             return res.status(200).json(new CustomResponse(200, `Login feito com sucesso`, result))
         }
         catch (err) {

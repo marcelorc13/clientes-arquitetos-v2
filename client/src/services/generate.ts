@@ -7,6 +7,7 @@ export const downloadExcelFile = async (clientes: ClienteResponseType[]) => {
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: "include",
             body: JSON.stringify(clientes)
         })
 

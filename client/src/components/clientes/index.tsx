@@ -9,8 +9,7 @@ import Link from 'next/link';
 import toast from "react-hot-toast";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { downloadExcelFile } from "@/services/generate";
-import { useRouter } from "next/navigation";
-import { useReload } from "@/hooks/useReload";
+import { UseReload } from "@/hooks/useReload";
 
 const Carregando = () => (
     <div>
@@ -26,8 +25,6 @@ const Clientes = () => {
     const [loading, setLoading] = useState(true)
     const [selecionado, setSelecionado] = useState<number[]>([])
     const [selecionarTodos, setSelecionarTodos] = useState<boolean>(false)
-
-    const router = useRouter()
 
     useEffect(() => {
         const loadData = async () => {
@@ -56,7 +53,7 @@ const Clientes = () => {
         const res: FetchResponseType<null> = await deleteCliente(id)
         if (res.status == 200) {
             console.log(res.message)
-            useReload()
+            UseReload()
             return toast.success(res.message)
         }
         if (res.status == 404) {
@@ -106,7 +103,7 @@ const Clientes = () => {
                         <button className="bg-red-600 funcoes-selecionados" onClick={() => {
                             selecionado.map(id => {
                                 deleteCliente(id)
-                                useReload()
+                                UseReload()
                             })
                         }}>Excluir</button>
 

@@ -11,6 +11,7 @@ export const getClientes = async () => {
                 'content-type': 'application/json',
                 'Cache-Control': 'no-store'
             },
+            credentials: "include",
             cache: "no-store"
         })
         const result: FetchResponseType<ClienteResponseType[]> = await res.json()
@@ -37,6 +38,7 @@ export const getCliente = async (id: string) => {
                 'content-type': 'application/json',
                 'Cache-Control': 'no-store'
             },
+            credentials: "include",
             cache: "no-store"
         })
         const result: FetchResponseType<ClienteResponseType> = await res.json()
@@ -62,6 +64,7 @@ export const deleteCliente = async (id: number) => {
                 'content-type': 'application/json',
                 'Cache-Control': 'no-store'
             },
+            credentials: 'include',
             cache: "no-store"
         })
         const result = await res.json()

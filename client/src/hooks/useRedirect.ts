@@ -1,3 +1,3 @@
-export const useRedirect = (route: string) => {
+export const UseRedirect = (route: string) => {
     window.location.replace(route)
 }

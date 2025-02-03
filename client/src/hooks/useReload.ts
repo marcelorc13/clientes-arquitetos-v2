@@ -1,3 +1,3 @@
-export const useReload = () => {
+export const UseReload = () => {
     window.location.reload()
 }

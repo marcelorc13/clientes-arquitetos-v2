@@ -32,7 +32,7 @@ const ClienteSelecionadoClient: React.FC<Props> = ({ id }) => {
             }
         };
         loadData()
-    }, []);
+    }, [id]);
 
     return (
         <main className='flex items-center justify-end w-full bg-slate-300'>

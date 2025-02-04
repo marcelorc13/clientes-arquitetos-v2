@@ -101,9 +101,9 @@ const Clientes = () => {
                 <div className="absolute top-8 right-12">
                     <div className="w-full flex flex-row gap-2">
                         <button className="bg-red-600 funcoes-selecionados" onClick={() => {
-                            selecionado.map(id => {
-                                deleteCliente(id)
-                                UseReload()
+                            selecionado.map(async (id) => {
+                                await deleteCliente(id)
+                                setClientes(currentClientes => currentClientes ? currentClientes.filter(cliente => !selecionado.includes(cliente.id_cliente)) : null)
                             })
                         }}>Excluir</button>
 

@@ -20,8 +20,7 @@ export const getClientes = async () => {
             return result
         }
         if (result.status == 404) {
-            toast.error(result.message)
-            return null
+            return <FetchResponseType<null>>{status: 404, message: "Ainda não existe clientes cadastrados no banco"}
         }
         console.log(result.message)
         return null

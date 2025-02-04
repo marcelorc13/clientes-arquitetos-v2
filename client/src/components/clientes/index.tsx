@@ -29,13 +29,16 @@ const Clientes = () => {
     useEffect(() => {
         const loadData = async () => {
             try {
-                const res: FetchResponseType<ClienteResponseType[]> | null | undefined = await getClientes()
+                const res: FetchResponseType<ClienteResponseType[] | null> | null | undefined = await getClientes()
                 const data: ClienteResponseType[] | null | undefined = res?.data
                 if (!res) {
                     return null
                 }
-                if (data) {
+                if (res.status == 200 && data) {
                     return setClientes(data);
+                }
+                if (res.status == 404) {
+                    setLoading(false)
                 }
             }
             catch (err) {
@@ -96,7 +99,7 @@ const Clientes = () => {
     return (
         <section className='w-full flex flex-col h-screen px-12 py-6'>
             <h1 className="text-2xl font-medium ">Clientes</h1>
-            <h3 className="text-sm text-slate-600">Total: {clientes?.length}</h3>
+            <h3 className="text-sm text-slate-600">Total: {clientes ? clientes.length : 0}</h3>
             {selecionado.length > 0 ?
                 <div className="absolute top-8 right-12">
                     <div className="w-full flex flex-row gap-2">
@@ -145,7 +148,11 @@ const Clientes = () => {
                         </li>
                         <li className="col-span-1 justify-center self-center"><IoTrashOutline className="cursor-pointer" onClick={async () => await handleDeleteCliente(cliente.id_cliente)} /></li >
                     </ul>
-                )) : <Carregando />}
+                )) : !loading && !clientes ? <div className="flex flex-col gap-1 items-center justify-center py-2">
+                    <h1>Ainda não existe clientes cadastrados no banco</h1>
+                    <Link href={'/cadastro-cliente'} className="text-blue-500">Clique aqui para cadastrar o primeiro cliente</Link>
+                </div>
+                    : <Carregando />}
             </div>
         </section>
     )

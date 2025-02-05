@@ -52,6 +52,7 @@ class UsuariosController {
             res.cookie("token", token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
+                sameSite: 'none',
                 maxAge: 1000 * 60 * 60,
             })
 
@@ -60,7 +61,6 @@ class UsuariosController {
         catch (err) {
             return res.status(500).json(new CustomResponse(500, "Erro desconhecido", err))
         }
-
     }
 
 }

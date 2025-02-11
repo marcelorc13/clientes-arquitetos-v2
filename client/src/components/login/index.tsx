@@ -7,6 +7,8 @@ import { login } from "@/services/usuarios";
 import { FetchResponseType } from "@/models/response-model";
 import toast from "react-hot-toast";
 import { UseRedirect } from "@/hooks/useRedirect";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { setCookie } from "@/services/cookies";
 
 const LoginClient = () => {
 
@@ -14,6 +16,8 @@ const LoginClient = () => {
         email: '',
         senha: ''
     })
+
+    const [loading, setLoading] = useState<boolean>(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -25,14 +29,19 @@ const LoginClient = () => {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
+            setLoading(true)
             const res: FetchResponseType<usuarioDTO> = await login(usuario)
             if (res.status == 404 || res.status == 500) {
+                setLoading(false)
                 return toast.error(res.message)
             }
+            await setCookie(usuario.email)
             UseRedirect('/clientes')
+            setLoading(false)
             return toast.success(res.message)
         }
         catch (err) {
+            setLoading(false)
             console.log(err)
         }
     }
@@ -44,7 +53,7 @@ const LoginClient = () => {
                 <form onSubmit={handleSubmit} className="w-full flex flex-col justify-center items-center gap-4">
                     <input onChange={handleChange} type="email" placeholder="Email" name="email" />
                     <input onChange={handleChange} type="password" placeholder="Senha" name="senha" />
-                    <input type="submit" value="Enviar" className="bg-slate-700 py-2 text-slate-200 rounded-xl font-semibold cursor-pointer hover:bg-slate-200 hover:text-slate-700 border border-slate-700 transition duration-200" />
+                    <button type="submit" className="bg-slate-700 py-2 text-slate-200 rounded-xl font-semibold cursor-pointer hover:bg-slate-200 hover:text-slate-700 border border-slate-700 transition duration-200 flex items-center justify-center">{loading ? <AiOutlineLoading3Quarters className="animate-spin" /> : 'Enviar'}</button>
                 </form>
             </div>
         </main>

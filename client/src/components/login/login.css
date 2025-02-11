@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-div input {
+div input, div button {
     @apply rounded-md ps-2 w-3/5 py-1 text-lg
 }

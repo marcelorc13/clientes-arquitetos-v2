@@ -47,13 +47,11 @@ class UsuariosController {
 
             const segredo = process.env.JWT_SECRET || "abibolo"
 
-            const token = jwt.sign({ id_usuario: result.id_usuario, nome: result.nome, email: result.email }, segredo, { expiresIn: "1h" })
+            const token = jwt.sign({ email: result.email }, segredo, { expiresIn: "1h" })
 
             res.cookie("token", token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'none',
-                path: '/',
                 maxAge: 1000 * 60 * 60,
             })
 
